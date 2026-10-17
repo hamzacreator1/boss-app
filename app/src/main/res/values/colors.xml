@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="boss_navy">#0B1020</color>
+    <color name="boss_blue">#1E3A8A</color>
+    <color name="boss_cyan">#3B82F6</color>
+    <color name="boss_bg">#0B1020</color>
+    <color name="boss_light">#9FB3D9</color>
+    <color name="ic_launcher_background">#0B1020</color>
+    <color name="user_bubble">#1E3A8A</color>
+    <color name="boss_bubble">#1A2340</color>
+</resources>

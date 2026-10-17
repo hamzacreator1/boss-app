@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Boss</string>
+    <string name="accessibility_service_description">Boss ko phone control karne ke liye accessibility permission chahiye.</string>
+    <string name="chat_hint">Boss se kuch poochein…</string>
+    <string name="send">Bhejo</string>
+    <string name="status_off">Status: Off</string>
+    <string name="status_on">Status: On (orb chal raha hai)</string>
+</resources>

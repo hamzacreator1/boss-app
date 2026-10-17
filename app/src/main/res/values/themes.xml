@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main app theme -->
+    <style name="Theme.Boss" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/boss_blue</item>
+        <item name="colorPrimaryDark">@color/boss_navy</item>
+        <item name="colorAccent">@color/boss_cyan</item>
+        <item name="android:windowBackground">@color/boss_bg</item>
+    </style>
+
+    <!-- Splash theme: plain NoActionBar, zero inflation risk -->
+    <style name="Theme.Boss.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/boss_bg</item>
+    </style>
+</resources>
