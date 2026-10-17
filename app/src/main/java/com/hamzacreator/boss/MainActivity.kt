@@ -128,11 +128,34 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     else -> "Sign in mein masla (code ${e.statusCode}) — dobara try karein."
                 }
                 toast(msg)
+                // Fallback: let him type his name so PRO still activates.
+                showManualProDialog()
             } catch (_: Exception) {
                 toast("Sign in nahi ho saka — dobara try karein.")
+                showManualProDialog()
             }
             refreshIdentity()
         }
+
+    /** Fallback when Google sign-in keeps failing: name entry still unlocks ✨ PRO. */
+    private fun showManualProDialog() {
+        val input = android.widget.EditText(this).apply {
+            hint = "Apna naam likhein"
+            setText(prefs.getString("MANUAL_NAME", ""))
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("PRO activate karein")
+            .setMessage("Google sign-in mein masla aa raha hai. Apna naam likhein — ✨ PRO phir bhi activate ho jayega!")
+            .setView(input)
+            .setPositiveButton("PRO On karein") { _, _ ->
+                val name = input.text.toString().trim().ifEmpty { "Boss" }
+                prefs.edit().putString("MANUAL_NAME", name).apply()
+                toast("✨ PRO active! Khush aamdeed, $name!")
+                refreshIdentity()
+            }
+            .setNegativeButton("Rehne dein", null)
+            .show()
+    }
 
     // ---------- Lifecycle ----------
 
@@ -180,7 +203,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (GoogleAuth.isSignedIn(this)) openSettings()
             else {
                 try {
-                    googleSignInLauncher.launch(GoogleAuth.client(this).signInIntent)
+                    // Clear any stale session first, then launch fresh sign-in.
+                    GoogleAuth.signOut(this) {
+                        googleSignInLauncher.launch(GoogleAuth.client(this).signInIntent)
+                    }
                 } catch (_: Exception) {
                     toast("Google sign-in nahi khul saka — Play Services check karein.")
                 }
@@ -277,8 +303,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     /** Shows Google profile photo + name + ✨ PRO badge when signed in. */
     private fun refreshIdentity() {
         if (!::binding.isInitialized) return
+        val manualName = prefs.getString("MANUAL_NAME", "").orEmpty()
         if (GoogleAuth.isSignedIn(this)) {
             val name = GoogleAuth.displayName(this)
+            binding.tvProBadge.text = "✨ PRO"
             binding.tvProBadge.visibility = View.VISIBLE
             if (name.isNotEmpty()) {
                 binding.tvUserName.text = name
@@ -290,6 +318,13 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             GoogleAuth.loadPhotoBitmap(this) { bmp ->
                 if (bmp != null) binding.imgUserPhoto.setImageBitmap(bmp)
             }
+        } else if (manualName.isNotEmpty()) {
+            // Manual fallback: PRO active with typed name.
+            binding.tvProBadge.text = "✨ PRO"
+            binding.tvProBadge.visibility = View.VISIBLE
+            binding.tvUserName.text = manualName
+            binding.tvUserName.visibility = View.VISIBLE
+            binding.cardUserPhoto.visibility = View.GONE
         } else {
             // Signed out: show a tappable "Sign in" pill so the button is never dead.
             binding.tvProBadge.text = "🔵 Sign in"
