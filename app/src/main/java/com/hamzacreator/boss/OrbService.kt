@@ -50,6 +50,11 @@ class OrbService : Service(), TextToSpeech.OnInitListener {
         const val ACTION_STOP = "com.hamzacreator.boss.STOP_ORB"
         private const val CHANNEL_ID = "boss_orb_channel"
         private const val NOTIF_ID = 1
+
+        /** True while the orb service is alive (for the drawer switch state). */
+        @Volatile
+        var isRunning: Boolean = false
+            private set
     }
 
     private lateinit var windowManager: WindowManager
@@ -71,6 +76,7 @@ class OrbService : Service(), TextToSpeech.OnInitListener {
 
     override fun onCreate() {
         super.onCreate()
+        isRunning = true
         startAsForeground()
 
         val prefs = getSharedPreferences("BossPrefs", MODE_PRIVATE)
@@ -223,6 +229,7 @@ class OrbService : Service(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroy() {
+        isRunning = false
         try {
             orbView?.let { windowManager.removeView(it) }
         } catch (_: Exception) {

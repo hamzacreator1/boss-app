@@ -12,6 +12,9 @@
     <!-- Foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- Camera tab: record video / take photo -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <!-- Launch apps directly by package name -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
@@ -39,6 +42,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
 
         <service
             android:name=".OrbService"

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/boss_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚙️ Settings"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvProStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Pro features ke liye Google se sign in karein 🙂"
+            android:textSize="14sp"
+            android:textColor="#8A94B0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btnGoogleSignInS"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔵 Google se Sign in karein" />
+
+            <Button
+                android:id="@+id/btnSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Sign out"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Gemini API Key"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/etApiKeyS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_rounded"
+            android:padding="12dp"
+            android:hint="API key yahan dalein"
+            android:textColor="@android:color/white"
+            android:textColorHint="#8A94B0"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Chat model"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <Spinner
+            android:id="@+id/spinnerChatModelS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" />
+
+        <EditText
+            android:id="@+id/etCustomModelS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_rounded"
+            android:padding="12dp"
+            android:hint="Custom model ka naam"
+            android:textColor="@android:color/white"
+            android:textColorHint="#8A94B0"
+            android:visibility="gone"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Veo video model"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/etVeoModelS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_rounded"
+            android:padding="12dp"
+            android:hint="veo-3.1-generate-preview"
+            android:textColor="@android:color/white"
+            android:textColorHint="#8A94B0"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="✅ Permissions check"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <!-- API key row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔑 API Key"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvStatusApiKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="—"
+                android:textColor="#8A94B0" />
+
+            <Button
+                android:id="@+id/btnFixApiKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theek karo" />
+        </LinearLayout>
+
+        <!-- Accessibility row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="📱 Accessibility (phone control)"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvStatusA11y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="—"
+                android:textColor="#8A94B0" />
+
+            <Button
+                android:id="@+id/btnFixA11y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theek karo" />
+        </LinearLayout>
+
+        <!-- Mic row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🎤 Mic (voice)"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvStatusMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="—"
+                android:textColor="#8A94B0" />
+
+            <Button
+                android:id="@+id/btnFixMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theek karo" />
+        </LinearLayout>
+
+        <!-- Overlay row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔮 Overlay (orb)"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvStatusOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="—"
+                android:textColor="#8A94B0" />
+
+            <Button
+                android:id="@+id/btnFixOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theek karo" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Note: Veo video ke liye PAID Gemini plan chahiye — free key se video NAHI banegi."
+            android:textSize="13sp"
+            android:textColor="#8A94B0" />
+    </LinearLayout>
+</ScrollView>

@@ -25,6 +25,8 @@ object CommandRouter {
         fun onFinal(text: String)
         /** Something failed. */
         fun onError(text: String)
+        /** Working-state indicator (icon + Roman Urdu text). Default: ignore. */
+        fun onWorking(icon: String, text: String) {}
     }
 
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -48,6 +50,7 @@ object CommandRouter {
                 return
             }
             Thread {
+                mainHandler.post { ui.onWorking("📱", "Phone par kaam: ${action.spokenReply}") }
                 val ok = action.executeOn(svc)
                 val reply = if (ok) action.spokenReply
                 else "Maaf karo, ye action nahi ho saka."
@@ -60,7 +63,10 @@ object CommandRouter {
         }
 
         // Conversational question → Gemini streams the answer.
-        mainHandler.post { ui.onStreamStart() }
+        mainHandler.post {
+            ui.onWorking("🤖", "Soch raha hoon...")
+            ui.onStreamStart()
+        }
         gemini.chatStream(
             userText = query,
             onChunk = { chunk -> ui.onStreamChunk(chunk) },

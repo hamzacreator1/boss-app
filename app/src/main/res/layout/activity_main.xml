@@ -1,304 +1,690 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/boss_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Boss"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-    <!-- Tabs: Chat | Video -->
+    <!-- ================= MAIN CONTENT ================= -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnTabChat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Chat" />
-
-        <Button
-            android:id="@+id/btnTabVideo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="Video" />
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etApiKey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Gemini API Key"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Chat model selector -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Model:" />
-
-        <Spinner
-            android:id="@+id/spinnerChatModel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp" />
-
-        <EditText
-            android:id="@+id/etCustomModel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:hint="custom model"
-            android:visibility="gone"
-            android:inputType="text" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <ToggleButton
-            android:id="@+id/toggleService"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOn="BOSS ON"
-            android:textOff="BOSS OFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Status: Off" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="#33000000" />
-
-    <!-- ============ CHAT SECTION ============ -->
-    <LinearLayout
-        android:id="@+id/layoutChatSection"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Top bar (Gemini style): hamburger | Boss ⌄ | ✨ PRO + profile photo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:background="@color/boss_navy">
+
+            <TextView
+                android:id="@+id/btnMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="☰"
+                android:textSize="24sp"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Boss"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="⌄"
+                    android:textSize="15sp"
+                    android:textColor="#8A94B0" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvProBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/pill_bg"
+                android:text="✨ PRO"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#FFD54F"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text=""
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:maxLines="1" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardUserPhoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imgUserPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Google profile photo" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- ============ CONTENT (hero overlays chat) ============ -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!-- CHAT SECTION -->
+            <LinearLayout
+                android:id="@+id/sectionChat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:padding="8dp" />
+
+                <!-- Working indicator -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/workingCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="6dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="16dp"
+                    app:cardBackgroundColor="@color/boss_bubble"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="14dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <ProgressBar
+                            android:id="@+id/workingSpinner"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:indeterminate="true" />
+
+                        <TextView
+                            android:id="@+id/workingIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="✨"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/workingText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="Boss kaam kar raha hai..."
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- VIDEO SECTION -->
+            <ScrollView
+                android:id="@+id/sectionVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="#332196F3"
+                        android:text="Note: Veo video ke liye PAID Gemini plan chahiye — free key se video NAHI banegi."
+                        android:textSize="13sp"
+                        android:textColor="@android:color/white" />
+
+                    <EditText
+                        android:id="@+id/etVideoPrompt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/input_rounded"
+                        android:padding="12dp"
+                        android:hint="Video prompt likhein... (e.g. ek sher par cinematic video)"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="#8A94B0"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:gravity="top" />
+
+                    <Button
+                        android:id="@+id/btnPickVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="📁 Apni video chunein" />
+
+                    <TextView
+                        android:id="@+id/tvPickedVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text=""
+                        android:textSize="13sp"
+                        android:textColor="#7CFC9A" />
+
+                    <VideoView
+                        android:id="@+id/videoPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Aspect ratio:"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
+
+                    <RadioGroup
+                        android:id="@+id/rgAspect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb916"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9:16 (Shorts)"
+                            android:textColor="@android:color/white"
+                            android:checked="true" />
+
+                        <RadioButton
+                            android:id="@+id/rb169"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="16:9 (YouTube)"
+                            android:textColor="@android:color/white" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Duration:"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
+
+                    <RadioGroup
+                        android:id="@+id/rgDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb15s"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15s"
+                            android:textColor="@android:color/white"
+                            android:checked="true" />
+
+                        <RadioButton
+                            android:id="@+id/rb30s"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="30s"
+                            android:textColor="@android:color/white" />
+
+                        <RadioButton
+                            android:id="@+id/rb60s"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="60s"
+                            android:textColor="@android:color/white" />
+
+                        <RadioButton
+                            android:id="@+id/rb90s"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="90s"
+                            android:textColor="@android:color/white" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/btnGenerate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="🎥 Video Banao" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Veo model:"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
+
+                    <Spinner
+                        android:id="@+id/spinnerVeoModel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" />
+
+                    <EditText
+                        android:id="@+id/etCustomVeoModel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/input_rounded"
+                        android:padding="12dp"
+                        android:hint="Custom model ka naam likhein"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="#8A94B0"
+                        android:visibility="gone"
+                        android:inputType="text" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarVideo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvVideoProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text=""
+                        android:textColor="@android:color/white" />
+
+                    <VideoView
+                        android:id="@+id/videoView"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- CAMERA SECTION -->
+            <LinearLayout
+                android:id="@+id/sectionCamera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnRecordVideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:text="🎥 Video record karein"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btnTakePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="16dp"
+                    android:text="📸 Photo lein"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvCameraStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/imgCameraThumb"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    android:scaleType="centerCrop" />
+            </LinearLayout>
+
+            <!-- HERO (Gemini style, on top when chat is empty) -->
+            <LinearLayout
+                android:id="@+id/heroView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/hero_gradient"
+                android:padding="32dp">
+
+                <ImageView
+                    android:id="@+id/imgHeroLogo"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:src="@drawable/boss_h_logo"
+                    android:contentDescription="Boss H logo" />
+
+                <TextView
+                    android:id="@+id/tvHeroText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:gravity="center"
+                    android:text="Dekho Boss ke saath kya kar sakte ho ✨"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btnHeroStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/pill_active"
+                    android:paddingStart="28dp"
+                    android:paddingEnd="28dp"
+                    android:text="Chalo shuru karein"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- Toggle pills: Chat | Video | Camera -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <LinearLayout
+                android:id="@+id/navChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/pill_active"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginEnd="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💬"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/navChatLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="Chat"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/pill_bg"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginEnd="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎥"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/navVideoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="Video"
+                    android:textSize="14sp"
+                    android:textColor="#9FB3D9" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/pill_bg"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📷"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/navCameraLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="Camera"
+                    android:textSize="14sp"
+                    android:textColor="#9FB3D9" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Gemini-style input bar: [+] | text | 🎤 | 🌊/➤ -->
+        <LinearLayout
+            android:id="@+id/inputBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="12dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp"
+                app:cardBackgroundColor="#141C38"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:minHeight="60dp">
+
+                    <TextView
+                        android:id="@+id/btnAttach"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textSize="28sp"
+                        android:textColor="#8A94B0" />
+
+                    <EditText
+                        android:id="@+id/etMessage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:padding="8dp"
+                        android:hint="Boss se poochho..."
+                        android:textColor="@android:color/white"
+                        android:textColorHint="#8A94B0"
+                        android:inputType="text"
+                        android:maxLines="4" />
+
+                    <TextView
+                        android:id="@+id/btnMic"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:text="🎤"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/btnVoice"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:text="🌊"
+                        android:textSize="24sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ================= NAV DRAWER ================= -->
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="@color/boss_navy"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💬 Chats"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnNewChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="➕ Nayi chat" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChat"
+            android:id="@+id/rvSessions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:clipToPadding="false"
-            android:paddingBottom="8dp" />
+            android:layout_marginTop="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33FFFFFF" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
 
-            <EditText
-                android:id="@+id/etMessage"
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Boss se kuch poochein..."
-                android:inputType="text"
-                android:maxLines="3" />
+                android:text="🔮 Voice Orb"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
 
-            <ImageButton
-                android:id="@+id/btnMic"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:src="@android:drawable/ic_btn_speak_now"
-                android:contentDescription="Bolo" />
-
-            <Button
-                android:id="@+id/btnSend"
+            <Switch
+                android:id="@+id/switchOrb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Bhejo" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- ============ VIDEO SECTION ============ -->
-    <ScrollView
-        android:id="@+id/layoutVideoSection"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/btnSettingsDrawer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="12dp"
+            android:text="⚙️ Settings"
+            android:textSize="16sp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvVideoNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:padding="10dp"
-                android:background="#332196F3"
-                android:text="Note: Video generation needs a paid Gemini API plan (Veo is not free) — free API keys will get an error here."
-                android:textSize="13sp" />
-
-            <EditText
-                android:id="@+id/etVideoPrompt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Video prompt likhein... (e.g. ek sher par cinematic video)"
-                android:inputType="textMultiLine"
-                android:minLines="3"
-                android:gravity="top" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Aspect ratio:"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/rgAspect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb916"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="9:16 (Shorts)"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:id="@+id/rb169"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="16:9 (YouTube)" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Duration:"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/rgDuration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb15s"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15s"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:id="@+id/rb30s"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="30s" />
-
-                <RadioButton
-                    android:id="@+id/rb60s"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="60s" />
-
-                <RadioButton
-                    android:id="@+id/rb90s"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="90s" />
-            </RadioGroup>
-
-            <EditText
-                android:id="@+id/etVeoModel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Veo model"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/btnGenerate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Video Banao" />
-
-            <ProgressBar
-                android:id="@+id/progressBarVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvVideoProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="" />
-
-            <VideoView
-                android:id="@+id/videoView"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

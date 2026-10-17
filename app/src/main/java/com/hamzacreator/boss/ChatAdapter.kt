@@ -9,7 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hamzacreator.boss.databinding.ItemChatMessageBinding
 
 /** One chat bubble. */
-data class ChatMessage(val text: String, val isUser: Boolean)
+data class ChatMessage(
+    val text: String,
+    val isUser: Boolean,
+    val time: String = currentTime()
+)
+
+private fun currentTime(): String {
+    return try {
+        val sdf = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
+        sdf.format(java.util.Date())
+    } catch (_: Exception) {
+        ""
+    }
+}
 
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.VH>() {
 
@@ -26,6 +39,8 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.VH>() {
         val msg = items[position]
         val b = holder.binding
         b.tvMessage.text = msg.text
+        b.tvTime.text = msg.time
+        b.tvTime.visibility = if (msg.time.isEmpty()) View.GONE else View.VISIBLE
         if (msg.isUser) {
             b.messageRoot.gravity = Gravity.END
             b.spaceView.visibility = View.GONE
@@ -63,5 +78,20 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.VH>() {
             items[position] = cur.copy(text = cur.text + chunk)
             notifyItemChanged(position)
         }
+    }
+
+    /** Replaces the whole list (session switch). */
+    fun setMessages(msgs: List<ChatMessage>) {
+        items.clear()
+        items.addAll(msgs)
+        notifyDataSetChanged()
+    }
+
+    /** Current messages (for saving the session). */
+    fun getMessages(): List<ChatMessage> = items.toList()
+
+    fun clear() {
+        items.clear()
+        notifyDataSetChanged()
     }
 }

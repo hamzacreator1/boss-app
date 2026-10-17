@@ -23,7 +23,8 @@ class VideoGenerator(private val apiKey: String) {
     }
 
     private val mainHandler = Handler(Looper.getMainLooper())
-    private val veoFallbackModel = "veo-3.0-generate-001"
+    // Gemini API uses the -preview model IDs; the Vertex -001 IDs ALWAYS 404 here.
+    private val veoFallbackModel = "veo-3.1-fast-generate-preview"
 
     fun generate(
         prompt: String,
@@ -35,6 +36,11 @@ class VideoGenerator(private val apiKey: String) {
     ) {
         Thread {
             try {
+                if (!looksLikeVeoModel(veoModel)) {
+                    throw Exception(
+                        "❌ Ye model naam nahi mila. Sahi naam hai: veo-3.1-generate-preview"
+                    )
+                }
                 if (!workDir.exists()) workDir.mkdirs()
                 val total = (durationSec + 7) / 8  // ceil
                 val veo = VeoClient(apiKey)
@@ -70,10 +76,28 @@ class VideoGenerator(private val apiKey: String) {
                 clips.forEach { c -> try { c.delete() } catch (_: Exception) {} }
                 post { listener.onComplete(out) }
             } catch (e: Exception) {
-                post { listener.onError(e.message ?: "Video nahi ban saki.") }
+                post { listener.onError(friendlyVeoError(e.message ?: "Video nahi ban saki.")) }
             }
         }.start()
     }
+
+    /** Turns raw Veo HTTP errors into clear Roman Urdu guidance. */
+    private fun friendlyVeoError(raw: String): String {
+        return when {
+            raw.contains("404") ->
+                "❌ Ye model naam nahi mila. Sahi naam hai: veo-3.1-generate-preview"
+            raw.contains("403") || raw.contains("PERMISSION_DENIED", ignoreCase = true) ||
+                raw.contains("billing", ignoreCase = true) || raw.contains("FAILED_PRECONDITION") ->
+                "⚠️ Veo video ke liye PAID Gemini plan chahiye — free key se video NAHI banegi."
+            raw.contains("400") && raw.contains("API key", ignoreCase = true) ->
+                "API key ghalat hai — Settings mein sahi key dalein."
+            else -> raw
+        }
+    }
+
+    /** "Gemini Omni" is not a real Google model — fail fast with a clear message. */
+    private fun looksLikeVeoModel(model: String): Boolean =
+        model.trim().lowercase().startsWith("veo-")
 
     private fun post(block: () -> Unit) {
         mainHandler.post(block)

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="28dp"
+    android:background="@color/boss_bg">
+
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:src="@drawable/boss_avatar"
+        android:contentDescription="Boss avatar" />
+
+    <!-- STEP 1: API key -->
+    <LinearLayout
+        android:id="@+id/step1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Assalam-o-Alaikum! 👋"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Main Boss hoon — aapka AI assistant.\nPehle apni Gemini API key dalein:"
+            android:textColor="#8A94B0" />
+
+        <EditText
+            android:id="@+id/etApiKeyO"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_rounded"
+            android:padding="14dp"
+            android:hint="Gemini API key"
+            android:textColor="@android:color/white"
+            android:textColorHint="#8A94B0"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/btnNext1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Aage ➤" />
+
+        <Button
+            android:id="@+id/btnGoogleSignInO"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="🔵 Google se Sign in karein (✨ PRO)" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="AI ke liye ek baar API key bhi dalni hogi 🙂"
+            android:textSize="12sp"
+            android:textColor="#8A94B0" />
+    </LinearLayout>
+
+    <!-- STEP 2: permissions -->
+    <LinearLayout
+        android:id="@+id/step2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Permissions dein 🔑"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Voice aur phone control ke liye\nteeno permissions zaroori hain:"
+            android:textColor="#8A94B0" />
+
+        <Button
+            android:id="@+id/btnPermA11y"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="📱 Accessibility: Boss ko ON karein" />
+
+        <Button
+            android:id="@+id/btnPermMic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🎤 Mic permission dein" />
+
+        <Button
+            android:id="@+id/btnPermOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🔮 Overlay permission dein" />
+
+        <TextView
+            android:id="@+id/tvPermStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text=""
+            android:textColor="#7CFC9A" />
+
+        <Button
+            android:id="@+id/btnNext2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Aage ➤" />
+    </LinearLayout>
+
+    <!-- STEP 3: done -->
+    <LinearLayout
+        android:id="@+id/step3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Ho gaya! 🎉"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="Ab aap Boss se baat kar sakte hain:\n• Kuch poochein ya likhein\n• Bolein: 'WhatsApp kholo'\n• Video banayein 🎥"
+            android:textSize="16sp"
+            android:textColor="#8A94B0" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="🚀 Shuru karein" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="● ○ ○"
+        android:textSize="18sp"
+        android:textColor="@android:color/white" />
+</LinearLayout>

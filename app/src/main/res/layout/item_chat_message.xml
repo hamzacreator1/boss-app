@@ -12,15 +12,31 @@
         android:id="@+id/cardMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
+        android:layout_weight="0"
+        app:cardCornerRadius="14dp"
         app:cardElevation="2dp">
 
-        <TextView
-            android:id="@+id/tvMessage"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="15sp" />
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                android:textSize="10sp"
+                android:textColor="#8A94B0" />
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <Space
