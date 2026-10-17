@@ -30,11 +30,19 @@ class SettingsActivity : AppCompatActivity() {
 
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-            if (res.resultCode == Activity.RESULT_OK) {
-                try {
-                    GoogleSignIn.getSignedInAccountFromIntent(res.data).result
-                } catch (_: Exception) {
+            try {
+                GoogleSignIn.getSignedInAccountFromIntent(res.data)
+                    .getResult(com.google.android.gms.common.api.ApiException::class.java)
+                android.widget.Toast.makeText(this, "Sign in ho gaya! ✨ PRO active", android.widget.Toast.LENGTH_SHORT).show()
+            } catch (e: com.google.android.gms.common.api.ApiException) {
+                val msg = when (e.statusCode) {
+                    12501 -> "Sign in cancel ho gaya."
+                    12500 -> "Sign in fail ho gaya (12500) — Google Play Services update karke dobara try karein."
+                    7 -> "Internet nahi mil raha — net on karke dobara try karein."
+                    else -> "Sign in mein masla (code ${e.statusCode}) — dobara try karein."
                 }
+                android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_LONG).show()
+            } catch (_: Exception) {
             }
             refreshProRow()
         }

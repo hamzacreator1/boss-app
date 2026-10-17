@@ -28,14 +28,21 @@ class OnboardingActivity : AppCompatActivity() {
 
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-            if (res.resultCode == Activity.RESULT_OK) {
-                try {
-                    val account = GoogleSignIn.getSignedInAccountFromIntent(res.data).result
-                    val name = account?.displayName.orEmpty().ifEmpty { "Dost" }
-                    Toast.makeText(this, "✨ PRO active! Khush aamdeed, $name!", Toast.LENGTH_LONG).show()
-                } catch (_: Exception) {
-                    Toast.makeText(this, "Sign in nahi ho saka.", Toast.LENGTH_SHORT).show()
+            try {
+                val account = GoogleSignIn.getSignedInAccountFromIntent(res.data)
+                    .getResult(com.google.android.gms.common.api.ApiException::class.java)
+                val name = account?.displayName.orEmpty().ifEmpty { "Dost" }
+                Toast.makeText(this, "✨ PRO active! Khush aamdeed, $name!", Toast.LENGTH_LONG).show()
+            } catch (e: com.google.android.gms.common.api.ApiException) {
+                val msg = when (e.statusCode) {
+                    12501 -> "Sign in cancel ho gaya."
+                    12500 -> "Sign in fail ho gaya (12500) — Google Play Services update karke dobara try karein."
+                    7 -> "Internet nahi mil raha — net on karke dobara try karein."
+                    else -> "Sign in mein masla (code ${e.statusCode}) — dobara try karein."
                 }
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+            } catch (_: Exception) {
+                Toast.makeText(this, "Sign in nahi ho saka.", Toast.LENGTH_SHORT).show()
             }
         }
 

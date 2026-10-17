@@ -35,6 +35,7 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.hamzacreator.boss.databinding.ActivityMainBinding
 import com.hamzacreator.boss.databinding.ItemSessionBinding
 import java.io.File
@@ -115,15 +116,20 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     /** Google sign-in straight from the home top bar (PRO badge tap). */
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-            if (res.resultCode == Activity.RESULT_OK) {
-                try {
-                    GoogleSignIn.getSignedInAccountFromIntent(res.data).result
-                    toast("Sign in ho gaya! ✨ PRO active")
-                } catch (_: Exception) {
-                    toast("Sign in nahi ho saka — dobara try karein.")
+            try {
+                GoogleSignIn.getSignedInAccountFromIntent(res.data)
+                    .getResult(ApiException::class.java)
+                toast("Sign in ho gaya! ✨ PRO active")
+            } catch (e: ApiException) {
+                val msg = when (e.statusCode) {
+                    12501 -> "Sign in cancel ho gaya."
+                    12500 -> "Sign in fail ho gaya (12500) — Google Play Services update karke dobara try karein."
+                    7 -> "Internet nahi mil raha — net on karke dobara try karein."
+                    else -> "Sign in mein masla (code ${e.statusCode}) — dobara try karein."
                 }
-            } else {
-                toast("Sign in cancel ho gaya.")
+                toast(msg)
+            } catch (_: Exception) {
+                toast("Sign in nahi ho saka — dobara try karein.")
             }
             refreshIdentity()
         }
