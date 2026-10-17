@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.hamzacreator.boss.databinding.ActivityMainBinding
 import com.hamzacreator.boss.databinding.ItemSessionBinding
 import java.io.File
@@ -111,6 +112,22 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
 
+    /** Google sign-in straight from the home top bar (PRO badge tap). */
+    private val googleSignInLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
+            if (res.resultCode == Activity.RESULT_OK) {
+                try {
+                    GoogleSignIn.getSignedInAccountFromIntent(res.data).result
+                    toast("Sign in ho gaya! ✨ PRO active")
+                } catch (_: Exception) {
+                    toast("Sign in nahi ho saka — dobara try karein.")
+                }
+            } else {
+                toast("Sign in cancel ho gaya.")
+            }
+            refreshIdentity()
+        }
+
     // ---------- Lifecycle ----------
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,6 +169,22 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun setupTopBar() {
         binding.btnMenu.setOnClickListener { binding.drawerLayout.openDrawer(GravityCompat.START) }
+        // Tapping the PRO badge / profile area signs in with Google (or opens Settings when signed in).
+        val proTap = View.OnClickListener {
+            if (GoogleAuth.isSignedIn(this)) openSettings()
+            else {
+                try {
+                    googleSignInLauncher.launch(GoogleAuth.client(this).signInIntent)
+                } catch (_: Exception) {
+                    toast("Google sign-in nahi khul saka — Play Services check karein.")
+                }
+            }
+        }
+        binding.tvProBadge.setOnClickListener(proTap)
+        binding.cardUserPhoto.setOnClickListener(proTap)
+        // When signed out the badge is hidden — show a tappable "Sign in" pill instead.
+        binding.tvProBadge.isClickable = true
+        binding.tvProBadge.isFocusable = true
     }
 
     private fun openSettings() {
@@ -252,7 +285,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 if (bmp != null) binding.imgUserPhoto.setImageBitmap(bmp)
             }
         } else {
-            binding.tvProBadge.visibility = View.GONE
+            // Signed out: show a tappable "Sign in" pill so the button is never dead.
+            binding.tvProBadge.text = "🔵 Sign in"
+            binding.tvProBadge.visibility = View.VISIBLE
             binding.tvUserName.visibility = View.GONE
             binding.cardUserPhoto.visibility = View.GONE
         }
